@@ -38,11 +38,12 @@ for (count, entry_id) in cursor:
       tmp[str(id)] = review_views[str(id)]
     else:
       tmp[str(id)] = 0
-  sorted(tmp.items(), key=operator.itemgetter(1), reverse=True)
-  point = 1
+  # sorted(tmp.items(), key=operator.itemgetter(1), reverse=True)
+  sorted(tmp.items(), key=operator.itemgetter(1))
+  point = 0
   for k, v in tmp.items():
     convertedData.write("%s,%d\n" % (k, point))
-    if point < 10:
+    if point < 9:
       point += 1
 
 convertedData.close()

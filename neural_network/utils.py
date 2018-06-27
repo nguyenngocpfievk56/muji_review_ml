@@ -12,7 +12,7 @@ def loadData(total):
   for line in f:
     if index < total:
       tmp = line.split(",")
-      text = np.array([np.float32(np.int(x) / 10) for x in tmp[2:]])
+      text = np.array([np.float32(x) for x in tmp[2:]])
       label = np.int32(tmp[1])
       text_data.append(text)
       label_data.append(label)

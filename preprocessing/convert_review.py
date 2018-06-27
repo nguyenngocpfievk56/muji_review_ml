@@ -28,35 +28,30 @@ for line in f:
 
 convertedData = open('converted_data.txt', 'w')
 
-kkk = True
-
 for (id, description) in cursor:
-  if kkk != False:
-    print(id)
-    doc = {}
-    for w in dictionary:
-      doc[w] = 0
-    node = mecab.parseToNode(description.encode('utf-8'))
-    while node:
-      word = node.surface
-      print(word)
-      if (word in doc):
-        doc[word] += 1
-        print("-------------------")
-        
-      node = node.next
-    
-    if (str(id) in review_views):
-      views = int(review_views[str(id)])
-    else:
-      views = 0
+  print(id)
+  doc = {}
+  for w in dictionary:
+    doc[w] = 0
 
-    convertedData.write("%d,%d" % (id, views))
-    for w, freq in doc.items():
-      convertedData.write(",%d" % freq)
+  node = mecab.parseToNode(description.encode('utf-8'))
+  while node:
+    word = node.surface
+    if (word in doc):
+      doc[word] += 1
+      
+    node = node.next
 
-    convertedData.write("\n")
-    kkk = False
+  if (str(id) in review_views):
+    views = int(review_views[str(id)])
+  else:
+    views = 0
+
+  convertedData.write("%d,%d" % (id, views))
+  for w, freq in doc.items():
+    convertedData.write(",%d" % freq)
+
+  convertedData.write("\n")
 
 convertedData.close()
 cursor.close()
