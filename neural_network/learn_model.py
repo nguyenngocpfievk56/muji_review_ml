@@ -7,7 +7,7 @@ import chainer.links as L
 from utils import loadData
 from muji_model import MujiNN
 
-train, test = loadData(1000)
+train, test = loadData(850)
 
 batchsize = 10
 
@@ -19,7 +19,7 @@ model = MujiNN()
 optimizer = optimizers.MomentumSGD(lr=0.01, momentum=0.9)
 optimizer.setup(model)
 
-max_epoch = 200
+max_epoch = 100
 
 while train_iter.epoch < max_epoch:
 
@@ -75,4 +75,4 @@ while train_iter.epoch < max_epoch:
         print('val_loss:{:.04f} val_accuracy:{:.04f}'.format(
             np.mean(test_losses), np.mean(test_accuracies)))
 
-serializers.save_npz('my_mnist.model', model)
+serializers.save_npz('./neural_network/my_mnist.model', model)

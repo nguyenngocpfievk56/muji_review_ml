@@ -20,7 +20,7 @@ query = ("SELECT id, description FROM cs_entry_comment WHERE entry_id IS NOT NUL
 cursor.execute(query)
 
 dictionary = loadDict()
-f = open('preprocessing/nomalize_views.txt', 'r')
+f = open('preprocessing/normalize_view_buy.txt', 'r')
 review_views = {}
 for line in f:
   tmp = line.split(",")
@@ -30,28 +30,28 @@ convertedData = open('converted_data.txt', 'w')
 
 for (id, description) in cursor:
   print(id)
-  doc = {}
-  for w in dictionary:
-    doc[w] = 0
-
-  node = mecab.parseToNode(description.encode('utf-8'))
-  while node:
-    word = node.surface
-    if (word in doc):
-      doc[word] += 1
-      
-    node = node.next
-
   if (str(id) in review_views):
+    doc = {}
+    for w in dictionary:
+      doc[w] = 0
+
+    node = mecab.parseToNode(description.encode('utf-8'))
+    while node:
+      word = node.surface
+      features = node.feature.split(",")
+      if (len(features) > 6) and not features[6]:
+        word = features[6]
+      if (word in doc):
+        doc[word] += 1
+        
+      node = node.next
+
     views = int(review_views[str(id)])
-  else:
-    views = 0
+    convertedData.write("%d,%d" % (id, views))
+    for w, freq in doc.items():
+      convertedData.write(",%d" % freq)
 
-  convertedData.write("%d,%d" % (id, views))
-  for w, freq in doc.items():
-    convertedData.write(",%d" % freq)
-
-  convertedData.write("\n")
+    convertedData.write("\n")
 
 convertedData.close()
 cursor.close()

@@ -25,3 +25,12 @@ def loadData(total):
   test  = tuple_dataset.TupleDataset(text_data[threshold:],  label_data[threshold:])
 
   return train, test
+
+def loadDict():
+  f = open('./neural_network/dictionary.txt', 'r')
+  dictionary = []
+  for line in f:
+      dictionary.append(line.strip('\n'))
+
+  f.close()
+  return dictionary

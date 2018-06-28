@@ -28,7 +28,10 @@ for (entry_id, description) in cursor:
 
   while node:
     word = node.surface
-    wtype = node.feature.split(",")[0]
+    features = node.feature.split(",")
+    wtype = features[0]
+    if (len(features) > 6) and not features[6]:
+      word = features[6]
     if (wtype != "記号"):
       if (word in words):
         words[word] += 1
@@ -43,7 +46,7 @@ print 'Total Review : ', total
 
 words = sorted(words.items(), key=operator.itemgetter(1))
 word_frequence = open('./preprocessing/word_frequence.txt', 'w')
-dictionary = open('dictionary.txt', 'w')
+dictionary = open('./neural_network/dictionary.txt', 'w')
 for word in words:
   word_frequence.write("%s %d\n" % (word[0], word[1]))
   if word[1] > 2:
