@@ -2,6 +2,11 @@
 import json
 from mysql.connector import (connection)
 from predict import predict
+import numpy as np
+from muji_model import MujiNN
+from utils import loadData, loadDict, loadIdf
+
+model = MujiNN()
 
 with open('./preprocessing/config.json') as config_file:
     data = json.load(config_file)
@@ -31,8 +36,11 @@ def showReviewsOf(productId):
     print('-' * 150)
   return 0
 
+def checkAllReview():
+  query = ('SELECT id, description FROM cs_entry_comment')
+  cursor.execute(query)
+  for (id, description) in cursor:
+    print(id, predict(description))
+
 if __name__ == '__main__':
-  entry_id = 54066
-  content = 'ずっと気になっており、先日の無印週間の際に購入しました。時間になると鳩出てきて鳴っていると子供達が大喜びします。私自身も幼少期の頃を思い出します。'
-  # addNewReview(content, entry_id)
-  showReviewsOf(entry_id)
+  checkAllReview()

@@ -7,9 +7,9 @@ import chainer.links as L
 from utils import loadData
 from muji_model import MujiNN
 
-train, test = loadData(850)
+train, test = loadData(2)
 
-batchsize = 10
+batchsize = 2
 
 train_iter = iterators.SerialIterator(train, batchsize)
 test_iter = iterators.SerialIterator(test, batchsize, repeat=False, shuffle=False)
@@ -19,7 +19,7 @@ model = MujiNN()
 optimizer = optimizers.MomentumSGD(lr=0.01, momentum=0.9)
 optimizer.setup(model)
 
-max_epoch = 100
+max_epoch = 20
 
 while train_iter.epoch < max_epoch:
 

@@ -34,3 +34,13 @@ def loadDict():
 
   f.close()
   return dictionary
+
+def loadIdf():
+  f = open('./neural_network/idf.txt', 'r')
+  idfW = {}
+  for line in f:
+    tmp = line.strip('\n').split(",")
+    idfW[tmp[0]] = float(tmp[1])
+
+  f.close()
+  return idfW

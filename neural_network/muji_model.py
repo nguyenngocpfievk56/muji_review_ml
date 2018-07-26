@@ -6,11 +6,11 @@ import chainer.links as L
 
 class MujiNN(Chain):
 
-    def __init__(self, n_mid_units=100, n_out=10):
+    def __init__(self, n_mid_units=100, n_out=11):
         super(MujiNN, self).__init__()
         with self.init_scope():
-            self.l1 = L.Linear(None, n_mid_units)
-            self.l2 = L.Linear(n_mid_units, n_mid_units)
+            self.l1 = L.Linear(None, n_mid_units * 2)
+            self.l2 = L.Linear(n_mid_units * 2, n_mid_units)
             self.l3 = L.Linear(n_mid_units, n_out)
 
     def __call__(self, x):

@@ -30,9 +30,9 @@ for (entry_id, description) in cursor:
     word = node.surface
     features = node.feature.split(",")
     wtype = features[0]
-    if (len(features) > 6) and not features[6]:
+    if (len(features) > 6) and features[6]:
       word = features[6]
-    if (wtype != "記号"):
+    if (wtype == "名詞" or wtype == "動詞" or wtype == "形容詞"):
       if (word in words):
         words[word] += 1
       else:
