@@ -23,7 +23,7 @@ max_epoch = 100
 
 pLoss = 10.0
 # while train_iter.epoch < max_epoch:
-while pLoss > 0.00001:
+while pLoss > 0.0001:
 
     # ---------- One iteration of the training loop ----------
     train_batch = train_iter.next()
