@@ -13,10 +13,10 @@ serializers.load_npz('./neural_network/my_mnist.model', model)
 
 def predict(review):
   mecab = MeCab.Tagger("-Ochasen")
-  node = mecab.parseToNode(review.encode('utf-8'))
-  # node = mecab.parseToNode(review)
+  # node = mecab.parseToNode(review.encode('utf-8'))
+  node = mecab.parseToNode(review)
   dictionary = loadDict()
-  idfW = loadIdf()
+  # idfW = loadIdf()
   doc = {}
   for w in dictionary:
     doc[w] = 0
@@ -25,13 +25,13 @@ def predict(review):
   while node:
     word = node.surface
     features = node.feature.split(",")
-    wtype = features[0]
-    if (len(features) > 6) and not features[6]:
+    if (len(features) > 6) and features[6]:
       word = features[6]
-    if (wtype == "名詞" or wtype == "動詞" or wtype == "形容詞"):
-      if (word in dictionary):
-        doc[word] += 1
-        num_words += 1
+
+    if (word in dictionary):
+      doc[word] = 1
+      print()
+      num_words += 1
     node = node.next
 
   # tmp = [num_words]
@@ -52,5 +52,5 @@ def predict(review):
   return int(pred_label)
 
 if __name__ == '__main__':
-  content = '切れ味が悪く、切れてもテープがまっすぐ切れない。お客様センターに電話したら、テープの相性が悪いかもしれないので、無印のテープで試してみてくださいと言われました。'
+  content = 'この椅子はデザインを見て一発で気に入りました。座り心地もよく長時間座っていても腰が楽です。そしてお尻が蒸れません！'
   print(predict(content))

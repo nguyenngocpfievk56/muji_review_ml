@@ -7,9 +7,9 @@ import chainer.links as L
 from utils import loadData
 from muji_model import MujiNN
 
-train, test = loadData(2)
+train, test = loadData(7000)
 
-batchsize = 2
+batchsize = 50
 
 train_iter = iterators.SerialIterator(train, batchsize)
 test_iter = iterators.SerialIterator(test, batchsize, repeat=False, shuffle=False)
@@ -19,9 +19,11 @@ model = MujiNN()
 optimizer = optimizers.MomentumSGD(lr=0.01, momentum=0.9)
 optimizer.setup(model)
 
-max_epoch = 20
+max_epoch = 100
 
-while train_iter.epoch < max_epoch:
+pLoss = 10.0
+# while train_iter.epoch < max_epoch:
+while pLoss > 0.00001:
 
     # ---------- One iteration of the training loop ----------
     train_batch = train_iter.next()
@@ -32,6 +34,7 @@ while train_iter.epoch < max_epoch:
 
     # Calculate the loss with softmax_cross_entropy
     loss = F.softmax_cross_entropy(prediction_train, target_train)
+    pLoss = float(loss.data)
 
     # Calculate the gradients in the network
     model.cleargrads()

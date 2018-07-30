@@ -19,10 +19,6 @@ query = ("SELECT id, description FROM cs_entry_comment WHERE entry_id IS NOT NUL
 
 cursor.execute(query)
 
-
-# TODO// Ap dung tf-idf vao
-
-
 dictionary = loadDict()
 f = open('preprocessing/normalize_like.txt', 'r')
 review_views = {}
@@ -44,13 +40,11 @@ for (id, description) in cursor:
   while node:
     word = node.surface
     features = node.feature.split(",")
-    wtype = features[0]
     if (len(features) > 6) and features[6]:
       word = features[6]
-    if (wtype == "名詞" or wtype == "動詞" or wtype == "形容詞"):
-      if (word in doc):
-        doc[word] += 1
-        num_words += 1
+    if (word in doc):
+      doc[word] = 1
+      num_words += 1
       
     node = node.next
 
